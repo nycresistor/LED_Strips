@@ -23,19 +23,23 @@ Finally there is an unpopulated 8-pin header on the reverse of the board near th
 
 ### Display
 At one end of the board is an unidentified OLED module. It has a labelled 7-pin inline header connection; the pins are labelled (from left to
-right, looking at the board) GND VCC D0 D1 RES DC CS. Probably this indicates:
+right, looking at the board) GND VCC D0 D1 RES DC CS.
+
+This is almost certainly equivalent to [this 0.96 OLED panel](http://www.lcdwiki.com/0.96inch_SPI_OLED_Module). These modules can
+use several protocols, but are ordinarily configured to use 4-pin SPI. It can handle a wide range of voltages (3.3-5v, apparently).
+The pinout is:
 
 | Label | Function |
 |-------|----------|
 | GND | Ground |
-| VCC | Power (3.3V, most likely) |
-| D0 | Data pin 0 |
-| D1 | Data pin 1 |
-| RES | Reset? |
-| DC | Data clock? |
-| CS | Chip select |
+| VCC | Power (3.3V-5V) |
+| D0 | SPI clock (clocked on rising edge, idle low) |
+| D1 | SPI data (transmitted MSB first) |
+| RES | Reset, active low (high in ordinary use) |
+| DC | Data/Command select: low for command, high for data |
+| CS | Chip select, active low |
 
-The protocol is unknown.
+The protocol is documented in [the OLED controller's datasheet](http://www.lcdwiki.com/res/MSP096X/SSD1306-Revision-1.5.pdf).
 
 ### Bluetooth
 There is a Raytac MDBT42Q module just below the LED. This is a Nordic nRF52832 based Bluetooth module. It has a 32-bit ARM core onboard and many
