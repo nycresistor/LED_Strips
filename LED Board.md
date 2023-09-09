@@ -16,8 +16,8 @@ strip into a bad state. Since the enable and reset lines of the drivers aren't b
 to discharge. Don't light up too many LEDs at once unless you have a very robust power supply!
 
 ## Pinout
-There are both high-current two pin connectors for the power, and seperate lower-current connectors for the data lines. The GND, VCC, SDI and CKI are clearly labelled
-on thre board.
+There are two connectors attached to the board. One is a 2-pin Molex Mini-Fit Jr. (probably part #0039012020) that connects to power and ground. The other
+is a 2mm pitch 2-pin connector carrying clock and data. GND, VCC, SDI and CKI are clearly labelled on the board.
 
 ## Driving the MY9221s
 
@@ -49,4 +49,38 @@ looks like this:
 | LED[10]  | 0x00      | value    |
 | ... |
 | LED[0]  | 0x00      | value    |
+
+## LED Map
+
+This table shows which LEDs are associated with each chip and channel.
+
+| Chip | Ch 11 | Ch 10 | Ch 9 | Ch 8 | Ch 7 | Ch 6 | Ch 5 | Ch 4 | Ch 3 | Ch 2 | Ch 1 | Ch 0 |
+|------|-------|-------|------|------|------|------|------|------|------|------|------|------|
+|    0 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    1 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    2 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    3 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    4 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    5 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    6 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    7 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    8 |       |       |      |      |      |      |      |      |      |      |      |      |
+|    9 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   10 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   11 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   12 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   13 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   14 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   15 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   16 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   17 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   18 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   19 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   20 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   21 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   22 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   23 |       |       |      |      |      |      |      |      |      |      |      |      |
+|   24 |       |       |      |      |      |      |      |      |      |      |      |      |
+
+
 
