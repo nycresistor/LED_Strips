@@ -52,7 +52,8 @@ looks like this:
 
 ## LED Map
 
-This table shows which LEDs are associated with each chip and channel.
+This table shows which LEDs are associated with each chip and channel. Pattern repeats every 5 chips,
+as expected.
 
 | Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
 |------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
@@ -61,12 +62,19 @@ This table shows which LEDs are associated with each chip and channel.
 | 2    | D14   | D16 G | D16 R | D16 B | D17   | D18   | D21   | D19 B | D19 R | D19 G | D20   | D22 G |
 | 3    | D22 R | D22 B | D23   | D24   | D27   | D25 B | D25 R | D25 G | D26   | D30   | D28 G | D28 R |
 | 4    | D28 B | D29   | D33   | D31 B | D31 R | D31 G | D32   | D36   | D34 G | D34 R | D34 B | D35   |
-| 5    | D37 B | D37 R | D39   | D38   | D37 G | D42   | D41   | D40 G | D40 R | D40 B | D44   | D43 B |
+
+| Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
 |------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| 5    | D37 B | D37 R | D39   | D38   | D37 G | D42   | D41   | D40 G | D40 R | D40 B | D44   | D43 B |
 | 6    | D43 R | D43 G | D45   | D46 G | D46 R | D46 B | D47   | D48   | D49 B | D49 R | D49 G | D51   |
 | 7    | D50   | D52 G | D52 R | D52 B | D53   | D54   | D57   | D55 B | D55 R | D55 G | D56   | D58 G |
-| 8    |       |       |       |       |       |       |       |       |       |       |       |       |
-| 9    |       |       |       |       |       |       |       |       |       |       |       |       |
+| 8    | D58 R | D58 B | D59   | D60   | D63   | D61 B | D61 R | D61 G | D62   | D66   | D64 G | D64 R |
+| 9    | D64 B | D65   | D69   | D67 B | D67 R | D67 G | D68   | D72   | D70 G | D70 R | D70 B | D71   |
+
+I'll just generate this from code for the rest.
+
+| Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
+|------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
 | 10   |       |       |       |       |       |       |       |       |       |       |       |       |
 | 11   |       |       |       |       |       |       |       |       |       |       |       |       |
 | 12   |       |       |       |       |       |       |       |       |       |       |       |       |
