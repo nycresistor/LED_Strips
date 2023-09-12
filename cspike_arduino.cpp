@@ -1,12 +1,6 @@
 #include "cspike.h"
+#include <Arduino.h>
 
-/*
-typedef struct {
-    int clk_pin;
-    int data_pin;
-    uint16_t leds[300];
-} CSpike;
-*/
 
 
 void cspike_int_latch(const CSpike* b) {
@@ -20,7 +14,7 @@ void cspike_int_latch(const CSpike* b) {
 }
 
 void cspike_int_shift16(const CSpike* b, uint16_t data) {
-    for (int i = 0; i < CSPIKE_CH_PER_CHIP/2; i++) {
+    for (int i = 0; i < 8; i++) {
         digitalWrite(b->data_pin, ((data & 0x8000) == 0)? LOW:HIGH);
         digitalWrite(b->clk_pin, HIGH);
         digitalWrite(b->data_pin, ((data & 0x4000) == 0)? LOW:HIGH);
@@ -37,7 +31,7 @@ void cspike_init(const CSpike* b) {
     // Immediately load with null data. We send 0s for all the command words. This needs
     // to happen fast so we'll just toggle everything manually.
     // Since we shift on high and low transitions, we can just wiggle the clock line.
-    for (uint i = 0; i < (CSPIKE_CHIPS + CSPIKE_LEDS)*8; i++) {
+    for (int i = 0; i < (CSPIKE_CHIPS + CSPIKE_LEDS)*8; i++) {
         digitalWrite(b->clk_pin, HIGH);
         digitalWrite(b->clk_pin, LOW);
     }
@@ -47,17 +41,20 @@ void cspike_init(const CSpike* b) {
 
 void cspike_update(const CSpike* b) {
     // Most significant LED shifted in first
-    for (int chip = CSPIKE_CHIPS; chip > 0; --chip) {
+    noInterrupts();
+    for (int chip = CSPIKE_CHIPS - 1; chip >= 0; chip--) {
         cspike_int_shift16(b, 0x00); // send simplest possible chip command (0, 8-bit mode)
-        for (int channel = CSPIKE_CH_PER_CHIP; channel > 0; --channel) {
-            cspike_int_shift16(b, b->leds[chip*CSPIKE_CH_PER_CHIP+channel]);
+        for (int channel = CSPIKE_CH_PER_CHIP - 1; channel >= 0; channel--) {
+          //if (b->leds[(chip*CSPIKE_CH_PER_CHIP)+channel]!=0) Serial.printf("Chip/Channel %d %d\n",chip,channel);
+          cspike_int_shift16(b, b->leds[(chip*CSPIKE_CH_PER_CHIP)+channel]);
         }
     }
     cspike_int_latch(b);
+    interrupts();
 };
 
 void cspike_clear(CSpike* b) {
-    memset(b->leds, 0, CSPIKE_LEDS);
+    memset(b->leds, 0, CSPIKE_LEDS*sizeof(uint16_t));
 }
 
 const uint8_t LANE_A_TAB[12] = {
@@ -115,17 +112,17 @@ void cspike_set_r(CSpike* b, uint8_t which, uint16_t red_value) {
 
 void cspike_set_g(CSpike* b, uint8_t which, uint16_t green_value) {
     const uint8_t block = which/12; // There are 12 rows in a repeating block
-    b->leds[block*12*5 + LANE_RED_TAB[which%12]] = green_value;
+    b->leds[block*12*5 + LANE_GREEN_TAB[which%12]] = green_value;
 }
 
 void cspike_set_b(CSpike* b, uint8_t which, uint16_t blue_value) {
     const uint8_t block = which/12; // There are 12 rows in a repeating block
-    b->leds[block*12*5 + LANE_RED_TAB[which%12]] = blue_value;
+    b->leds[block*12*5 + LANE_BLUE_TAB[which%12]] = blue_value;
 }
 
 void cspike_set_rgb(CSpike* b, uint8_t which, uint16_t red_value, uint16_t green_value, uint16_t blue_value) {
-    cspike_set_r(b, red_value);
-    cspike_set_g(b, green_value);
-    cspike_set_b(b, blue_value);
+    cspike_set_r(b, which, red_value);
+    cspike_set_g(b, which, green_value);
+    cspike_set_b(b, which, blue_value);
 }
     
