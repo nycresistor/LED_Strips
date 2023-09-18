@@ -44,7 +44,7 @@ class ColorSpike_LED {
      * @param clock Arduino pin number of the clock line
      * @param data Arduino pin number of the data line
      */
-    ColorSpike_LED(int clock, int data);
+    ColorSpike_LED(int clock, int data) : clk_pin(clock), data_pin(data) {}
     
     /*!
      * Initialize the LED board. This will turn off all the LEDs.
