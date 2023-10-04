@@ -9,8 +9,8 @@ Each board also carries 180 SMD LEDs, organized in 60 banks. Each bank contains 
 we really have 300 LEDs, which comes out to 12 LEDs/driver chip.
 
 ## Power
-On these boards V<sub>LED</sub> and the driver's VCC are tied together, so the voltage has to remain in the 3V-5.5V range. In the original configuration they appear to have been
-running at 5V. 
+On these boards V<sub>LED</sub> and the driver's VCC are tied together, so the voltage has to remain in the 3V-5.5V range. The LEDS will light up clearly at 3V.
+
 **IMPORTANT:** Lighting up an entire strip of LEDs can draw a tremendous amount of current. This will cause VCC to sag, leading the driver chips to glitch out, getting the
 strip into a bad state. Since the enable and reset lines of the drivers aren't broken out, the only real way to unbrick the strip is to disconnect it and wait for the caps
 to discharge. Don't light up too many LEDs at once unless you have a very robust power supply!
@@ -22,7 +22,7 @@ is a 2mm pitch 2-pin connector carrying clock and data. GND, VCC, SDI and CKI ar
 ## Driving the MY9221s
 
 ### Electrical interface
-The data lines require a voltage of 0.7*VDD for V<sub>IH</sub>, so 3.3 signals won't cut it. You'll have to use a microcontroller that produces 5V signals or a buffer chip.
+The data lines require a voltage of 0.7*VDD for V<sub>IH</sub>. If you're running the strip at 5V, 3.3V signals won't cut it. You'll have to use a microcontroller that produces 5V signals or a buffer chip.
 
 The data is clocked in to the chip on the rising *and* the falling edge of the clock signal. Each chip takes a *208 bit* long command to set its internal registers. That means
 to update the entire strip, you'll need to send *5200* bits to the board. After all the data is clocked in to the internal shift register, you'll then have to latch it
@@ -53,7 +53,7 @@ looks like this:
 ## LED Map
 
 This table shows which LEDs are associated with each chip and channel. Pattern repeats every 5 chips,
-as expected.
+as expected. (The table entries are the reference designators on the physical board.)
 
 | Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
 |------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
@@ -63,6 +63,8 @@ as expected.
 | 3    | D22 R | D22 B | D23   | D24   | D27   | D25 B | D25 R | D25 G | D26   | D30   | D28 G | D28 R |
 | 4    | D28 B | D29   | D33   | D31 B | D31 R | D31 G | D32   | D36   | D34 G | D34 R | D34 B | D35   |
 
+For instance, the next block of five chips will look like this:
+
 | Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
 |------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
 | 5    | D37 B | D37 R | D39   | D38   | D37 G | D42   | D41   | D40 G | D40 R | D40 B | D44   | D43 B |
@@ -71,25 +73,6 @@ as expected.
 | 8    | D58 R | D58 B | D59   | D60   | D63   | D61 B | D61 R | D61 G | D62   | D66   | D64 G | D64 R |
 | 9    | D64 B | D65   | D69   | D67 B | D67 R | D67 G | D68   | D72   | D70 G | D70 R | D70 B | D71   |
 
-I'll just generate this from code for the rest.
-
-| Chip | Ch 11 | Ch 10 | Ch 9  | Ch 8  | Ch 7  | Ch 6  | Ch 5  | Ch 4  | Ch 3  | Ch 2  | Ch 1  | Ch 0  |
-|------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
-| 10   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 11   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 12   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 13   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 14   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 15   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 16   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 17   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 18   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 19   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 20   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 21   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 22   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 23   |       |       |       |       |       |       |       |       |       |       |       |       |
-| 24   |       |       |       |       |       |       |       |       |       |       |       |       |
 
 
 
