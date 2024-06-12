@@ -83,12 +83,14 @@ void ColorSpike_LED::init() {
 
 void ColorSpike_LED::update() {
     // Most significant LED shifted in first
+    noInterrupts(); // We need to shut down interrupts; even a little jitter drops bits for some reason.
     for (int chip = CSPIKE_CHIPS - 1; chip >= 0; chip--) {
         shift16(0x00); // send simplest possible chip command (0, 8-bit mode)
         for (int channel = CSPIKE_CH_PER_CHIP - 1; channel >= 0; channel--) {
           shift16(leds[(chip*CSPIKE_CH_PER_CHIP)+channel]);
         }
     }
+    interrupts(); // restore interrupts (latching requires delays!)
     latch();
 };
 
